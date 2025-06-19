@@ -703,6 +703,17 @@
 							{/if}
 						{/if}
 
+						<!-- Show processing message when web search is complete but message content is not yet generated -->
+						{#if (message?.statusHistory ?? []).some(s => s.action === 'web_search' && s.done === true) && (!message.content || message.content === '') && !message.done}
+							<div class="status-description flex items-center gap-2 py-0.5">
+								<div class="flex flex-col justify-center -space-y-0.5">
+									<div class="shimmer text-gray-500 dark:text-gray-500 text-base line-clamp-1 text-wrap">
+										{$i18n.t('Processing web search results')}
+									</div>
+								</div>
+							</div>
+						{/if}
+
 						{#if message?.files && message.files?.filter((f) => f.type === 'image').length > 0}
 							<div class="my-1 w-full flex overflow-x-auto gap-2 flex-wrap">
 								{#each message.files as file}
